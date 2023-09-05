@@ -9,12 +9,25 @@ public class LibraryMain {
     private static final String DELETE_NOT_EXIST_BOOK_MESSAGE = "도서관에 존재하지 않는 책은 삭제할 수 없습니다.";
 
     public static void main(String[] args) {
+        negativeLibrary();
+        addBook();
+        addMoreThanMax();
+        duplicateBook();
+        findBook();
+        deleteBook();
+        deleteNotExistBook();
+    }
+
+    public static void negativeLibrary() {
         try {
             new Library(-1);
         } catch (IllegalArgumentException e) {
             assert e.getMessage().equals(NEGATIVE_LIBRARY_MESSAGE);
         }
 
+    }
+
+    public static void addBook() {
         Library library = new Library(5);
 
         library.add("해리포터");
@@ -23,6 +36,9 @@ public class LibraryMain {
 
         assert 3 == library.getTotalBookCount();
 
+    }
+
+    public static void addMoreThanMax() {
         Library oneLibrary = new Library(1);
 
         oneLibrary.add("자바의 정석");
@@ -32,25 +48,38 @@ public class LibraryMain {
         } catch (IllegalArgumentException e) {
             assert e.getMessage().equals(ADD_MORE_THAN_MAX_MESSAGE);
         }
+    }
 
+    public static void duplicateBook() {
+        Library library = new Library(5);
         library.add("백설공주");
-
         try {
             library.add("백설공주");
         } catch (IllegalArgumentException e) {
             assert e.getMessage().equals(ADD_DUPLICATE_BOOK_MESSAGE);
         }
+    }
 
+    public static void findBook() {
+        Library library = new Library(5);
+
+        library.add("어린왕자");
         assert library.find("어린왕자");
         assert !library.find("엄지공주");
+    }
 
+    public static void deleteBook() {
+        Library library = new Library(5);
+        library.add("백설공주");
         library.delete("백설공주");
+    }
 
+    public static void deleteNotExistBook() {
+        Library library = new Library(5);
         try {
             library.delete("흥부와 놀부");
         } catch (IllegalArgumentException e) {
             assert e.getMessage().equals(DELETE_NOT_EXIST_BOOK_MESSAGE);
         }
     }
-
 }
